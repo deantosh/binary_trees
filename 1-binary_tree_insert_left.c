@@ -9,27 +9,23 @@
  */
 binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value)
 {
-	binary_tree_t *new_child, *old_child;
+	binary_tree_t *new_child;
 
 	/*validate values to func*/
 	if (!parent)
 		return (NULL);
 
-	/*allocate mem for new child*/
-	new_child = malloc(sizeof(binary_tree_t));
+	/*create a new node*/
+	new_child = binary_tree_node(parent, value);
 	if (!new_child)
 		return (NULL);
 
-	old_child = parent->left;
-	if (old_child)
+	if (parent->left)
 	{
-		new_child->left = old_child;
-		old_child->parent = new_child;
+		new_child->left = parent->left;
+		parent->left->parent = new_child;
 	}
-
 	parent->left = new_child;
-	new_child->parent = parent;
-	new_child->n = value;
 
 	return (new_child);
 }
