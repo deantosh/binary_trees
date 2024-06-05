@@ -1,4 +1,5 @@
 #include "binary_trees.h"
+
 /**
  * binary_tree_leaves - function that counts leaves node in Binary tree.
  * @tree: pointer to the root node of the tree to count the number of leaves.
