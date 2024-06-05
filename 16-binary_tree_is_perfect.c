@@ -39,10 +39,10 @@ int full_check_height(const binary_tree_t *tree, int depth, int *leaf_level)
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
+	int leaf_level = -1;
+
 	if (tree == NULL)
 		return (0);
-
-	int leaf_level = -1;
 
 	return (full_check_height(tree, 0, &leaf_level));
 }
