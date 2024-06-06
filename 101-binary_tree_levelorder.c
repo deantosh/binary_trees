@@ -1,8 +1,8 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_levelorder - Function goes through a binary tree using the level
- *	order traversal.
+ * binary_tree_levelorder - Function goes through a binary tree using
+ *	the level order traversal.
  * @tree: A pointer to the root node of the tree to traverse.
  * @func: A pointer to a function to call each node.
  *
@@ -10,22 +10,71 @@
  */
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
+	int i, height;
+
 	if (!tree || !func)
 		return;
 
-	/*print if the root node*/
-	if (tree->parent == NULL)
-		func(tree->n);
+	/*get height of the binary tree*/
+	height = b_height(tree) + 1;
 
-	/*print the right and left child*/
-	if (tree->left)
-		func(tree->left->n);
-	if (tree->right)
-		func(tree->right->n);
+	/*traverse the tree levels*/
+	for (i = 1; i <= height; i++)
+	{
+		/*print nodes on that tree from left to right*/
+		process_level(tree, i, func);
+	}
+}
+
+/**
+ * process_level - Function traverses each tree level and print nodes
+ *	from left to right.
+ * @tree: The tree to traverse.
+ * @level: The level to process.
+ * @func: The function to print the values of nodes in that level.
+ *
+ * Return: void.
+ */
+void process_level(const binary_tree_t *tree, int level, void(*func)(int))
+{
+	if (!tree || !func)
+		return;
+
+	if (level == 1)
+	{
+		/*print node value*/
+		func(tree->n);
+	}
+	else if (level > 1)
+	{
+		/*traverse the left subtree*/
+		process_level(tree->left, level - 1, func);
+		/*traverser the right subtree*/
+		process_level(tree->right, level - 1, func);
+	}
+}
+
+/**
+ * b_height - Function gets the height of a tree.
+ * @tree: A pointer to the root node of the tree to find height.
+ *
+ * Return: height(always).
+ */
+int b_height(const binary_tree_t *tree)
+{
+	int left_height = 0, right_height = 0;
+
+	if (!tree)
+		return (0);
 
 	/*traverse the left subtree*/
-	binary_tree_levelorder(tree->left, func);
+	if (tree->left)
+		left_height = b_height(tree->left) + 1;
 
 	/*traverse the right subtree*/
-	binary_tree_levelorder(tree->right, func);
+	if (tree->right)
+		right_height = b_height(tree->right) + 1;
+
+	/*return the maximum height*/
+	return (left_height > right_height ? left_height : right_height);
 }
