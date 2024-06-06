@@ -55,5 +55,6 @@ int binary_tree_is_complete(const binary_tree_t *tree);
 int full_check_height(const binary_tree_t *tree, int depth, int *leaf_level);
 int number_of_nodes(const binary_tree_t *node);
 int tree_is_complete(const binary_tree_t *tree, int index, int node_count);
+void process_level(const binary_tree_t *tree, int level, void(*func)(int));
 
 #endif /*BINARY_TREES_H*/
