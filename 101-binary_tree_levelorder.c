@@ -10,16 +10,16 @@
  */
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
-	int i, height = 0;
+	int i, height;
 
 	if (!tree || !func)
 		return;
 
 	/*get height of the binary tree*/
-	height = tree_height(tree);
+	height = b_height(tree) + 1;
 
 	/*traverse the tree levels*/
-	for (i = 1; i < height; i++)
+	for (i = 1; i <= height; i++)
 	{
 		/*print nodes on that tree from left to right*/
 		process_level(tree, i, func);
@@ -55,12 +55,12 @@ void process_level(const binary_tree_t *tree, int level, void(*func)(int))
 }
 
 /**
- * tree_height - Function gets the height of a tree.
+ * b_height - Function gets the height of a tree.
  * @tree: A pointer to the root node of the tree to find height.
  *
  * Return: height(always).
  */
-int tree_height(const binary_tree_t *tree)
+int b_height(const binary_tree_t *tree)
 {
 	int left_height = 0, right_height = 0;
 
@@ -69,11 +69,11 @@ int tree_height(const binary_tree_t *tree)
 
 	/*traverse the left subtree*/
 	if (tree->left)
-		left_height = tree_height(tree->left) + 1;
+		left_height = b_height(tree->left) + 1;
 
 	/*traverse the right subtree*/
 	if (tree->right)
-		right_height = tree_height(tree->right) + 1;
+		right_height = b_height(tree->right) + 1;
 
 	/*return the maximum height*/
 	return (left_height > right_height ? left_height : right_height);
