@@ -14,7 +14,7 @@ bst_t *bst_search(const bst_t *tree, int value)
 
 	/*if value is found*/
 	if (tree->n == value)
-	  return ((bst_t *)tree);
+		return ((bst_t *)tree);
 
 	/*if value < current node -- traverse left subtree*/
 	if ((tree->n > value) && tree->left)
