@@ -10,7 +10,7 @@
 bst_t *array_to_bst(int *array, size_t size)
 {
 	size_t i;
-	bst_t *root = NULL, *node;
+	bst_t *root = NULL;
 
 	if (!array)
 		return (NULL);
@@ -18,10 +18,7 @@ bst_t *array_to_bst(int *array, size_t size)
 	for (i = 0; i < size; i++)
 	{
 		/*create BST -- add array value*/
-		node = bst_insert(&root, array[i]);
-		/*if duplicate value found*/
-		if (!node)
-			return (NULL);
+		bst_insert(&root, array[i]);
 	}
 	return (root);
 }
