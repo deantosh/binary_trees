@@ -23,6 +23,7 @@ struct binary_tree_s
 };
 
 typedef struct binary_tree_s binary_tree_t;
+typedef struct binary_tree_s bst_t;
 
 /*Function Prototypes*/
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
@@ -53,6 +54,7 @@ binary_tree_t *binary_tree_rotate_left(binary_tree_t *tree);
 binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
 int binary_tree_is_complete(const binary_tree_t *tree);
 int binary_tree_is_bst(const binary_tree_t *tree);
+bst_t *bst_insert(bst_t **tree, int value);
 
 /* HELPER FUNCTION*/
 int full_check_height(const binary_tree_t *tree, int depth, int *leaf_level);
@@ -60,7 +62,8 @@ int number_of_nodes(const binary_tree_t *node);
 int tree_is_complete(const binary_tree_t *tree, int index, int node_count);
 void process_level(const binary_tree_t *tree, int level, void (*func)(int));
 int b_height(const binary_tree_t *tree);
-int valid_bst_helper(const binary_tree_t *tree,
-					 const binary_tree_t *min, const binary_tree_t *max);
+int valid_bst_helper(const binary_tree_t *tree, const binary_tree_t *min,
+		     const binary_tree_t *max);
+bst_t *find_leaf_node(bst_t *curr, int value);
 
 #endif /*BINARY_TREES_H*/
