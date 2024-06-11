@@ -57,6 +57,7 @@ int binary_tree_is_bst(const binary_tree_t *tree);
 bst_t *bst_insert(bst_t **tree, int value);
 bst_t *array_to_bst(int *array, size_t size);
 bst_t *bst_search(const bst_t *tree, int value);
+int binary_tree_is_avl(const binary_tree_t *tree);
 
 /* HELPER FUNCTION*/
 int full_check_height(const binary_tree_t *tree, int depth, int *leaf_level);
@@ -67,5 +68,6 @@ int b_height(const binary_tree_t *tree);
 int valid_bst_helper(const binary_tree_t *tree, const binary_tree_t *min,
 		     const binary_tree_t *max);
 bst_t *find_leaf_node(bst_t *curr, int value);
+int is_balance_factor_1_or_0(const binary_tree_t *tree);
 
 #endif /*BINARY_TREES_H*/
