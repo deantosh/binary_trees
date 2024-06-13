@@ -24,6 +24,7 @@ struct binary_tree_s
 
 typedef struct binary_tree_s binary_tree_t;
 typedef struct binary_tree_s bst_t;
+typedef struct binary_tree_s avl_t;
 
 /*Function Prototypes*/
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
@@ -58,6 +59,7 @@ bst_t *bst_insert(bst_t **tree, int value);
 bst_t *array_to_bst(int *array, size_t size);
 bst_t *bst_search(const bst_t *tree, int value);
 int binary_tree_is_avl(const binary_tree_t *tree);
+avl_t *avl_insert(avl_t **tree, int value);
 
 /* HELPER FUNCTION*/
 int full_check_height(const binary_tree_t *tree, int depth, int *leaf_level);
@@ -69,5 +71,7 @@ int valid_bst_helper(const binary_tree_t *tree, const binary_tree_t *min,
 		     const binary_tree_t *max);
 bst_t *find_leaf_node(bst_t *curr, int value);
 int is_balance_factor_1_or_0(const binary_tree_t *tree);
+avl_t *insert_new_node(avl_t *curr, int value);
+void balance_tree(avl_t **tree, avl_t *curr);
 
 #endif /*BINARY_TREES_H*/
