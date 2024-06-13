@@ -43,7 +43,6 @@ avl_t *insert_new_node(avl_t *curr, int value)
 	/*Base case: terminates the loop*/
 	if (!curr)
 		return (NULL);
-
 	/*Choose the subtree to traverse: to add new node*/
 	if (value < curr->n)
 	{
@@ -65,7 +64,7 @@ avl_t *insert_new_node(avl_t *curr, int value)
 	{
 		if (curr->right)
 		{
-			return insert_new_node(curr->right, value);
+			return (insert_new_node(curr->right, value));
 		}
 		else
 		{
@@ -96,20 +95,34 @@ void balance_tree(avl_t **tree, avl_t *curr)
 	while (curr)
 	{
 		balance_factor = binary_tree_balance(curr);
-
 		if (balance_factor > 1)
 		{
 			if (binary_tree_balance(curr->left) < 0)
 				curr->left = binary_tree_rotate_left(curr->left);
+			parent = curr->parent;
 			curr = binary_tree_rotate_right(curr);
+			if (parent)
+			{
+				if (curr->n < parent->n)
+					parent->left = curr;
+				if (curr->n > parent->n)
+					parent->right = curr;
+			}
 		}
 		else if (balance_factor < -1)
 		{
 			if (binary_tree_balance(curr->right) > 0)
 				curr->right = binary_tree_rotate_right(curr->right);
+			parent = curr->parent;
 			curr = binary_tree_rotate_left(curr);
+			if (parent)
+			{
+				if (curr->n < parent->n)
+					parent->left = curr;
+				if (curr->n > parent->n)
+					parent->right = curr;
+			}
 		}
-
 		parent = curr->parent;
 		if (!parent)
 			*tree = curr;  /*Handle new root*/
