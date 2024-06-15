@@ -79,14 +79,14 @@ avl_t *delete_node(avl_t **root, avl_t *node)
 	{
 		*root = successor_node;
 	}
-	successor_parent = parent;
+	successor_node->parent = parent;
 	/*attach children of the node to the successor node*/
 	if (node->left != successor_node)
 		successor_node->left = node->left;
 	else
 		successor_node->left = NULL;
 	successor_node->right = node->right;
-	if (node->left)
+	if (node->left && node->left != successor_node)
 		node->left->parent = successor_node;
 	if (node->right)
 		node->right->parent = successor_node;
