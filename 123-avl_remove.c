@@ -82,7 +82,7 @@ avl_t *delete_node(avl_t **root, avl_t *node)
 	successor_node->parent = parent;
 	if (node->right != successor_node)
 		successor_node->right = node->right;
-	else
+	if (!successor_node->right)
 		successor_node->right = NULL;
 	successor_node->left = node->left;
 	if (node->left)
