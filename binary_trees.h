@@ -61,6 +61,7 @@ bst_t *bst_search(const bst_t *tree, int value);
 int binary_tree_is_avl(const binary_tree_t *tree);
 avl_t *avl_insert(avl_t **tree, int value);
 avl_t *array_to_avl(int *array, size_t size);
+avl_t *avl_remove(avl_t *root, int value);
 
 /* HELPER FUNCTION*/
 int full_check_height(const binary_tree_t *tree, int depth, int *leaf_level);
@@ -74,5 +75,9 @@ bst_t *find_leaf_node(bst_t *curr, int value);
 int is_balance_factor_1_or_0(const binary_tree_t *tree);
 avl_t *insert_new_node(avl_t *curr, int value);
 void balance_tree(avl_t **tree, avl_t *curr);
+avl_t *find_node_to_delete(avl_t *curr, int value);
+avl_t *find_min(avl_t *node);
+avl_t *rebalance_avl_tree(avl_t *root, avl_t *curr);
+avl_t *delete_node(avl_t **root, avl_t *node);
 
 #endif /*BINARY_TREES_H*/
