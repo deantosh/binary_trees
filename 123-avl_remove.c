@@ -197,5 +197,9 @@ avl_t *rebalance_avl_tree(avl_t *root, avl_t *curr)
 			unbalanced_node_parent->right = r_node;
 		r_node->parent = unbalanced_node_parent;
 	}
+	else
+	{
+		root = r_node;
+	}
 	return (root);
 }
