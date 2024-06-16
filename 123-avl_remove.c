@@ -27,7 +27,7 @@ avl_t *avl_remove(avl_t *root, int value)
 		}
 		else if (node->left && node->right)
 		{
-			delete_node(&root, node);
+			parent = delete_node(&root, node);
 		}
 		else
 		{
@@ -48,6 +48,7 @@ avl_t *avl_remove(avl_t *root, int value)
 			free(node);  /*delete the node*/
 		}
 	}
+	root = rebalance_avl_tree(root, parent);
 	return (root);
 }
 
@@ -81,11 +82,11 @@ avl_t *delete_node(avl_t **root, avl_t *node)
 	}
 	successor_node->parent = parent;
 	/*attach children of the node to the successor node*/
-	if (node->left != successor_node)
-		successor_node->left = node->left;
+	if (node->right != successor_node)
+		successor_node->right = node->right;
 	else
-		successor_node->left = NULL;
-	successor_node->right = node->right;
+		successor_node->right = NULL;
+	successor_node->left = node->left;
 	if (node->left && node->left != successor_node)
 		node->left->parent = successor_node;
 	if (node->right)
@@ -158,16 +159,15 @@ avl_t *find_min(avl_t *node)
 	return (node);
 }
 
-
 /**
- * rebalance_avl_tree - Function balances the AVL tree after deleting a node.
- * @root: A pointer to the root node of the tree to balance.
- * @curr: A pointer to the deleted node parent.
+ * rebalance - Function balances the AVL tree after deleting a node.
+ * @tree: A pointer to the root node of the tree to balance.
  *
  * Return: root (success) or NULL (fails).
  */
 avl_t *rebalance_avl_tree(avl_t *root, avl_t *curr)
 {
+	avl_t *parent, *r_node;
 	int balance_factor;
 
 	/*get the node to check if balance*/
@@ -177,18 +177,25 @@ avl_t *rebalance_avl_tree(avl_t *root, avl_t *curr)
 		/*left heavy*/
 		if (balance_factor > 1)
 		{
+			parent = curr->parent;
 			if (binary_tree_balance(curr->left) < 0)
-				return (binary_tree_rotate_left(curr->left));
-			return (binary_tree_rotate_right(curr));
+				binary_tree_rotate_left(curr->left);
+			r_node = binary_tree_rotate_right(curr);
 		}
 		/*right heavy*/
-		if (balance_factor < 1)
+		if (balance_factor < -1)
 		{
 			if (binary_tree_balance(curr->left) > 0)
-				return (binary_tree_rotate_right(curr->right));
-			return (binary_tree_rotate_left(curr));
+				binary_tree_rotate_right(curr->right);
+			r_node = binary_tree_rotate_left(curr);
 		}
 		curr = curr->parent;
 	}
+	if (parent->n > r_node->n)
+		parent->left = r_node;
+	else
+		parent->right = r_node;
+	r_node->parent = parent;
+	
 	return (root);
 }
