@@ -48,8 +48,7 @@ avl_t *avl_remove(avl_t *root, int value)
 			free(node);  /*delete the node*/
 		}
 	}
-	root = rebalance_avl_tree(root, parent);
-	return (root);
+	return (rebalance_avl_tree(root, parent));
 }
 
 /**
@@ -81,17 +80,15 @@ avl_t *delete_node(avl_t **root, avl_t *node)
 		*root = successor_node;
 	}
 	successor_node->parent = parent;
-	/*attach children of the node to the successor node*/
 	if (node->right != successor_node)
 		successor_node->right = node->right;
 	else
 		successor_node->right = NULL;
 	successor_node->left = node->left;
-	if (node->left && node->left != successor_node)
+	if (node->left)
 		node->left->parent = successor_node;
-	if (node->right)
+	if (node->right != successor_node)
 		node->right->parent = successor_node;
-	/*detach successor node from parent*/
 	if (successor_parent)
 	{
 		if (successor_parent->left == successor_node)
@@ -99,7 +96,6 @@ avl_t *delete_node(avl_t **root, avl_t *node)
 		if (successor_parent->right == successor_node)
 			successor_parent->right = NULL;
 	}
-	/*delete node*/
 	free(node);
 	if (successor_parent)
 		return (successor_parent);
@@ -160,14 +156,15 @@ avl_t *find_min(avl_t *node)
 }
 
 /**
- * rebalance - Function balances the AVL tree after deleting a node.
- * @tree: A pointer to the root node of the tree to balance.
+ * rebalance_avl_tree - Function balances the AVL tree after deleting a node.
+ * @root: A pointer to the root node of the tree to balance.
+ * @curr: A pointer to the successor node parent.
  *
  * Return: root (success) or NULL (fails).
  */
 avl_t *rebalance_avl_tree(avl_t *root, avl_t *curr)
 {
-	avl_t *parent, *r_node;
+	avl_t *unbalanced_node_parent = NULL, *r_node = NULL;
 	int balance_factor;
 
 	/*get the node to check if balance*/
@@ -177,7 +174,7 @@ avl_t *rebalance_avl_tree(avl_t *root, avl_t *curr)
 		/*left heavy*/
 		if (balance_factor > 1)
 		{
-			parent = curr->parent;
+			unbalanced_node_parent = curr->parent;
 			if (binary_tree_balance(curr->left) < 0)
 				binary_tree_rotate_left(curr->left);
 			r_node = binary_tree_rotate_right(curr);
@@ -185,17 +182,20 @@ avl_t *rebalance_avl_tree(avl_t *root, avl_t *curr)
 		/*right heavy*/
 		if (balance_factor < -1)
 		{
+			unbalanced_node_parent = curr->parent;
 			if (binary_tree_balance(curr->left) > 0)
 				binary_tree_rotate_right(curr->right);
 			r_node = binary_tree_rotate_left(curr);
 		}
 		curr = curr->parent;
 	}
-	if (parent->n > r_node->n)
-		parent->left = r_node;
-	else
-		parent->right = r_node;
-	r_node->parent = parent;
-	
+	if (unbalanced_node_parent)
+	{
+		if (unbalanced_node_parent->n > r_node->n)
+			unbalanced_node_parent->left = r_node;
+		else
+			unbalanced_node_parent->right = r_node;
+		r_node->parent = unbalanced_node_parent;
+	}
 	return (root);
 }
